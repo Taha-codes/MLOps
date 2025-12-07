@@ -1,4 +1,0 @@
-[core]
-    remote = localstorage
-['remote "localstorage"']
-    url = /Users/mac/Desktop/MLOps/churn_predictor/dvc-storage
