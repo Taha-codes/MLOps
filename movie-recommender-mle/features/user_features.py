@@ -19,11 +19,11 @@ def compute_user_features(ratings: pd.DataFrame, movies: pd.DataFrame) -> pd.Dat
 
     # Base aggregations
     user_features = ratings.groupby('userId').agg(
-        avg_rating_given=('rating', 'mean'),
-        rating_std=('rating', 'std'),
-        total_ratings=('rating', 'count'),
-        last_rating_timestamp=('timestamp', 'max'),
-        first_rating_timestamp=('timestamp', 'min')
+        avg_rating_given=('rating', 'mean'), # understaing user rating bias
+        rating_std=('rating', 'std'), # strong opinions of users
+        total_ratings=('rating', 'count'), # users with more ratings are more cricual
+        last_rating_timestamp=('timestamp', 'max'), # how recently active is each user
+        first_rating_timestamp=('timestamp', 'min') # distinguishes between two users with the same total_ratings
     ).reset_index()
 
     # Days since last rating (relative to max timestamp in dataset)
@@ -47,7 +47,6 @@ def compute_user_features(ratings: pd.DataFrame, movies: pd.DataFrame) -> pd.Dat
 
     print(f"Computed features for {len(user_features)} users")
     return user_features
-
 
 if __name__ == "__main__":
     ratings = pd.read_csv('data/raw/ml-25m/ratings.csv')
