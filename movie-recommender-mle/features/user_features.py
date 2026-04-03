@@ -3,16 +3,6 @@ import numpy as np
 from tqdm import tqdm
 
 def compute_user_features(ratings: pd.DataFrame, movies: pd.DataFrame) -> pd.DataFrame:
-    """
-    Compute per-user features from ratings history.
-    
-    These features will be stored in both:
-    - Parquet (offline store) for training
-    - Redis (online store) for serving
-    
-    Using the same function for both prevents training-serving skew.
-    """
-    print("Computing user features...")
 
     # Merge to get genre info
     ratings_with_genres = ratings.merge(movies[['movieId', 'genres']], on='movieId', how='left')

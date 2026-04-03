@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import re
+import re #for regex search
 
 # All genres in MovieLens dataset
 ALL_GENRES = [
@@ -10,25 +10,16 @@ ALL_GENRES = [
     'Thriller', 'War', 'Western', 'IMAX'
 ]
 
-def extract_release_year(title: str) -> int:
-    """Extract release year from movie title like 'Toy Story (1995)'"""
+def extract_release_year(title: str) -> int: #we need to extract the year from the movie title feature
     match = re.search(r'\((\d{4})\)', title)
     return int(match.group(1)) if match else 0
 
-def compute_genre_vector(genres_str: str) -> list:
-    """Convert genre string to multi-hot encoded vector"""
+def compute_genre_vector(genres_str: str) -> list: # here we encode the genre string into a multi hot encoded genre vector
     genres = genres_str.split('|')
     return [1 if g in genres else 0 for g in ALL_GENRES]
 
 def compute_movie_features(ratings: pd.DataFrame, movies: pd.DataFrame) -> pd.DataFrame:
-    """
-    Compute per-movie features from ratings received.
-
-    Same principle as user features — one function,
-    used for both training and serving.
-    """
-    print("Computing movie features...")
-
+   
     # Base aggregations from ratings
     movie_features = ratings.groupby('movieId').agg(
         avg_rating_received=('rating', 'mean'),
@@ -60,9 +51,9 @@ def compute_movie_features(ratings: pd.DataFrame, movies: pd.DataFrame) -> pd.Da
     return movie_features
 
 if __name__ == "__main__":
-    ratings = pd.read_csv('data/raw/ml-25m/ratings.csv')
-    movies = pd.read_csv('data/raw/ml-25m/movies.csv')
+    ratings = pd.read_csv('/Users/mac/Desktop/MLOps/movie-recommender-mle/data/raw/ml-25m/ratings.csv')
+    movies = pd.read_csv('/Users/mac/Desktop/MLOps/movie-recommender-mle/data/raw/ml-25m/movies.csv')
 
     movie_features = compute_movie_features(ratings, movies)
-    print(movie_features.head())
+    print(movie_features.head(20))
     print(movie_features.dtypes)
