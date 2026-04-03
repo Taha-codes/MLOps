@@ -49,9 +49,9 @@ def compute_user_features(ratings: pd.DataFrame, movies: pd.DataFrame) -> pd.Dat
     return user_features
 
 if __name__ == "__main__":
-    ratings = pd.read_csv('data/raw/ml-25m/ratings.csv')
-    movies = pd.read_csv('data/raw/ml-25m/movies.csv')
+    ratings = pd.read_csv('/Users/mac/Desktop/MLOps/movie-recommender-mle/data/raw/ml-25m/ratings.csv')
+    movies = pd.read_csv('/Users/mac/Desktop/MLOps/movie-recommender-mle/data/raw/ml-25m/movies.csv')
 
     user_features = compute_user_features(ratings, movies)
-    print(user_features.head())
+    print(user_features.head(20))
     print(user_features.dtypes)
