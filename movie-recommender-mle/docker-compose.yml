@@ -8,5 +8,21 @@ services:
       - redis_data:/data
     command: redis-server --appendonly yes
 
+  mlflow:
+    image: python:3.11-slim
+    container_name: movie_rec_mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    command: >
+      bash -c "pip install mlflow==2.7.0 --quiet &&
+               mlflow server
+               --host 0.0.0.0
+               --port 5000
+               --backend-store-uri /mlflow/experiments
+               --default-artifact-root /mlflow/artifacts"
+
 volumes:
   redis_data:
+  mlflow_data:
